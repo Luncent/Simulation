@@ -1,0 +1,15 @@
+grass_view=G
+grass_times_to_eat=3
+
+rock_view=R
+
+tree_view=T
+
+herbivore_view=H
+herbivore_speed=1
+herbivore_health=100
+
+predator_view=H
+predator_speed=1
+predator_health=100
+predator_damage=25
