@@ -7,6 +7,7 @@ import org.example.entities.creatures.Creature;
 import org.example.exceptions.MapCreationException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @NoArgsConstructor
@@ -82,6 +83,13 @@ public class GameMap {
     public void removeFromMap(Entity entity) {
         entityMap.put(entity.getCoordinate(), null);
         boolean result = creaturesCycleBuffer.remove(entity);
+    }
+
+    public List<Creature> selectCreaturesFromMap(){
+        return entityMap.values().stream()
+                .filter(entity-> entity instanceof Creature)
+                .map(entity -> (Creature)entity)
+                .collect(Collectors.toList());
     }
 
     private void validateMapCreation(int columnsCount, int rowsCount) throws MapCreationException {

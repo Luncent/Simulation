@@ -10,6 +10,7 @@ import static org.example.utils.CreaturesIterationUtil.resetAndFillCycleBuffer;
 
 public class CycleAction extends Action {
     private static final String DESCRIBING_MESSAGE = "simulate one full cycle";
+    private static final int INCREMENT_NUMBER = 1;
 
     public CycleAction(Context appContext) {
         super(DESCRIBING_MESSAGE, appContext);
@@ -21,7 +22,7 @@ public class CycleAction extends Action {
         resetAndFillCycleBuffer(creaturesCycleBuffer, applicationContext.getMap());
         while (!creaturesCycleBuffer.isEmpty()) {
             creaturesCycleBuffer.poll().makeMove();
-            applicationContext.increaseSteps(1);
+            applicationContext.increaseSteps(INCREMENT_NUMBER);
         }
     }
 }

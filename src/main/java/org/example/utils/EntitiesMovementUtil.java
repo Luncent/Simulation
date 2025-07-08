@@ -27,6 +27,7 @@ public class EntitiesMovementUtil {
         });
     }
 
+    //gets target if its in range
     public static Optional<InteractiveEntity> tryToReachTarget(Creature creature){
         Set<Coordinate> coordinates = generateMoves(creature.getCoordinate());
         return coordinates.stream()

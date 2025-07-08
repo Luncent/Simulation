@@ -6,7 +6,6 @@ import org.example.entities.creatures.Creature;
 import java.util.*;
 
 import static org.example.utils.CreaturesIterationUtil.resetAndFillCycleBuffer;
-import static org.example.utils.EntityUtil.selectCreatures;
 import static org.example.utils.ThreadUtil.startThreads;
 import static org.example.utils.ThreadUtil.waitForThreads;
 
