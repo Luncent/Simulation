@@ -1,15 +1,18 @@
-grass_view=G
+grass_view=\uD83C\uDF3F
 grass_times_to_eat=3
 
-rock_view=R
+rock_view=\uD83D\uDDFF
 
-tree_view=T
+tree_view=\uD83C\uDF33
 
-herbivore_view=H
+herbivore_view=\uD83D\uDC04
 herbivore_speed=1
 herbivore_health=100
 
-predator_view=H
-predator_speed=1
+predator_view=\uD83D\uDC3A
+predator_speed=2
 predator_health=100
 predator_damage=25
+
+map_rows=5
+map_columns=8

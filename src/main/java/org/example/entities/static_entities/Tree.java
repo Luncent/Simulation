@@ -1,10 +1,10 @@
-package org.example.entities.non_living;
+package org.example.entities.static_entities;
 
 import org.example.entities.Entity;
 
 public class Tree extends Entity {
 
-    public Tree(Character view){
+    public Tree(String view){
         super(view);
     }
 }

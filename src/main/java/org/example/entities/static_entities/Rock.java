@@ -1,9 +1,9 @@
-package org.example.entities.non_living;
+package org.example.entities.static_entities;
 
 import org.example.entities.Entity;
 
 public class Rock extends Entity {
-    public Rock(Character view){
+    public Rock(String view){
         super(view);
     }
 }

@@ -1,11 +1,20 @@
 package org.example.entities;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
+import org.example.Coordinate;
+import org.example.GameMap;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public abstract class Entity {
-    private final Character entityView;
+    protected final String entityView;
+    @Setter
+    @EqualsAndHashCode.Exclude
+    protected GameMap map;
+    @Setter
+    protected Coordinate coordinate;
+
+    protected Entity(String entityView) {
+        this.entityView = entityView;
+    }
 }
