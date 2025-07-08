@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.example.actions.Action;
 import org.example.entities.creatures.Creature;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static org.example.utils.CreaturesIterationUtil.resetAndFillCycleBuffer;
 import static org.example.utils.ThreadUtil.startThreads;
@@ -16,18 +18,21 @@ public class Simulation {
     private final List<Action> initActions;
     private final Map<String,Action> turnActions;
     private final GameMap map;
-    private final Context appContext;
+    private final Consumer<Integer> incrementStepsCounter;
+    private final Supplier<Integer> stepsCounterSupplier;
     private final Queue<Creature> creaturesCycleBuffer;
 
-    public Simulation(Context appContext,
-                      List<Action> initActions,
-                      Map<String,Action> turnActions){
-        this.appContext = appContext;
-        this.scanner = appContext.getScanner();
+    public Simulation(List<Action> initActions, Map<String,Action> turnActions,
+                      Consumer<Integer> incrementStepsCounter,Supplier<Integer> stepsCounterSupplier,
+                      Scanner scanner, GameMap map, Queue<Creature> creaturesCycleBuffer
+    ){
+        this.incrementStepsCounter = incrementStepsCounter;
+        this.stepsCounterSupplier = stepsCounterSupplier;
+        this.scanner = scanner;
         this.initActions = initActions;
         this.turnActions = turnActions;
-        this.creaturesCycleBuffer = appContext.getCreaturesCycleBuffer();
-        this.map = appContext.getMap();
+        this.creaturesCycleBuffer = creaturesCycleBuffer;
+        this.map = map;
     }
 
     public void startSimulation() throws InterruptedException {
@@ -60,7 +65,7 @@ public class Simulation {
 
     public void nextTurn() {
         Creature creatureToMove = nextCreature();
-        appContext.increaseSteps(1);
+        incrementStepsCounter.accept(1);
         creatureToMove.makeMove();
     }
 
@@ -75,7 +80,7 @@ public class Simulation {
                 resetAndFillCycleBuffer(creaturesCycleBuffer, map);
                 while(!creaturesCycleBuffer.isEmpty()) {
                     creaturesCycleBuffer.poll().makeMove();
-                    appContext.increaseSteps(1);
+                    incrementStepsCounter.accept(1);
                     try {
                         Thread.sleep(TIME_BETWEEN_CYCLES_MILL);
                     } catch (InterruptedException e) {
@@ -106,7 +111,7 @@ public class Simulation {
     }
 
     private void printMenu(){
-        System.out.println("(Steps made"+appContext.getStepsMade()+") Choose an option:");
+        System.out.println("(Steps made"+stepsCounterSupplier.get()+") Choose an option:");
         System.out.println("1 - make move");
         System.out.println("2 - endless cycle (TO END PRESS ANY BUTTON)");
         turnActions.forEach((key,action)-> System.out.println(key+" - "+action.getDescribingMessage()));

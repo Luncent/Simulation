@@ -10,7 +10,6 @@ public class KeyboardCoordinateFactory extends CoordinateFactory {
     private final Scanner scanner;
 
     public KeyboardCoordinateFactory(Context appContext) {
-        super(appContext);
         this.scanner = appContext.getScanner();
     }
 

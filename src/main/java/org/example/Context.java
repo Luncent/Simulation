@@ -1,9 +1,19 @@
 package org.example;
 
 import lombok.Getter;
+import org.example.actions.Action;
+import org.example.actions.init_actions.EntitiesCreationAction;
+import org.example.actions.init_actions.EntitiesPlacementAction;
+import org.example.actions.turn_actions.AddEntityAction;
+import org.example.actions.turn_actions.CycleAction;
+import org.example.coordinate_factory.PredefinedStaticObjectAndRandomCreatureCoordinateFactory;
+import org.example.coordinate_factory.RandomCoordinateFactory;
 import org.example.entities.Entity;
 import org.example.entities.creatures.Creature;
+import org.example.entities.static_entities.Rock;
+import org.example.entities.static_entities.Tree;
 import org.example.entity_factories.*;
+import org.example.exceptions.MapCreationException;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -17,27 +27,107 @@ public class Context {
     private static final int STEPS_MADE_INIT = 0;
 
     private GameMap map;
-    private List<EntityFactory<? extends Entity>> suppliers;
+    private List<EntityFactory<? extends Entity>> entityFactories;
     private Random random;
     private Scanner scanner;
     private Properties properties;
     private Queue<Creature> creaturesCycleBuffer;
     private Integer stepsMade;
 
-    public Context(){
+    private GrassFactory grassFactory;
+    private TreeFactory treeFactory;
+    private RockFactory rockFactory;
+    private HerbivoreFactory herbivoreFactory;
+    private PredatorFactory predatorFactory;
 
-    }
+    private RandomCoordinateFactory randomCoordinateFactory;
+    private Map<Class,Queue<Coordinate>> predefinedCoordinates;
+    private PredefinedStaticObjectAndRandomCreatureCoordinateFactory predefinedCoordinateFactory;
 
-    public void init() throws IOException {
+    private EntitiesCreationAction entitiesCreationAction;
+    private EntitiesPlacementAction entitiesPlacementAction;
+    private AddEntityAction addEntityAction;
+    private CycleAction cycleAction;
+    private List<Action> initActions;
+    private Map<String, Action> turnActions;
+
+    private Simulation simulation;
+
+    public void init() throws IOException, MapCreationException {
         properties = loadAppProperties();
         random = new Random();
         scanner = new Scanner(System.in);
         creaturesCycleBuffer = new LinkedList<>();
         stepsMade = STEPS_MADE_INIT;
 
+        map = new GameMap(properties, random, creaturesCycleBuffer);
+        randomCoordinateFactory = new RandomCoordinateFactory(map, random);
+        createPredefinedCoordinateFactory();
 
-        map = new GameMap();
-        suppliers = initEntitiesSuppliers(properties);
+        createEntityFactories(properties);
+        createInitActions();
+        createTurnActions();
+
+        simulation = new Simulation(initActions, turnActions, this::increaseSteps,
+                this::getStepsMade, scanner, map, creaturesCycleBuffer);
+    }
+
+    private void createInitActions(){
+        entitiesCreationAction = new EntitiesCreationAction(entityFactories, map);
+        entitiesPlacementAction = new EntitiesPlacementAction(predefinedCoordinateFactory, map);
+
+        initActions = new LinkedList<>();
+        initActions.add(entitiesCreationAction);
+        initActions.add(entitiesPlacementAction);
+    }
+
+    private void createTurnActions(){
+        cycleAction = new CycleAction(creaturesCycleBuffer, this::increaseSteps, map);
+
+        turnActions = new TreeMap<>();
+        turnActions.put("3",cycleAction);
+        turnActions.put("4",new AddEntityAction("grass", creaturesCycleBuffer, randomCoordinateFactory, grassFactory, map));
+        turnActions.put("5",new AddEntityAction("cow", creaturesCycleBuffer, randomCoordinateFactory, herbivoreFactory, map));
+        turnActions.put("6",new AddEntityAction( "wolf", creaturesCycleBuffer, randomCoordinateFactory, predatorFactory, map));
+    }
+
+    private void createPredefinedCoordinateFactory(){
+        createPredefinedCoordinates();
+
+        predefinedCoordinateFactory = new PredefinedStaticObjectAndRandomCreatureCoordinateFactory(
+                randomCoordinateFactory,predefinedCoordinates);
+    }
+
+    private void createPredefinedCoordinates(){
+        predefinedCoordinates = new HashMap<>();
+        Queue<Coordinate> coordinatesR = new LinkedList<>();
+        coordinatesR.add(new Coordinate(0,0));
+        coordinatesR.add(new Coordinate(0,1));
+        coordinatesR.add(new Coordinate(2,1));
+        coordinatesR.add(new Coordinate(2,2));
+        coordinatesR.add(new Coordinate(2,4));
+        coordinatesR.add(new Coordinate(2,5));
+        predefinedCoordinates.put(Rock.class,coordinatesR);
+
+        Queue<Coordinate> coordinatesT = new LinkedList<>();
+        coordinatesT.add(new Coordinate(1,0));
+        coordinatesT.add(new Coordinate(1,1));
+        predefinedCoordinates.put(Tree.class, coordinatesT);
+    }
+
+    private void createEntityFactories(Properties properties){
+        grassFactory = new GrassFactory(properties,3);
+        rockFactory = new RockFactory(properties,6);
+        herbivoreFactory = new HerbivoreFactory(properties,1);
+        predatorFactory = new PredatorFactory(properties,1);
+        treeFactory = new TreeFactory(properties,2);
+
+        entityFactories = new ArrayList<>();
+        entityFactories.add(grassFactory);
+        entityFactories.add(rockFactory);
+        entityFactories.add(herbivoreFactory);
+        entityFactories.add(predatorFactory);
+        entityFactories.add(treeFactory);
     }
 
     public void increaseSteps(int valueToAdd){
@@ -54,13 +144,4 @@ public class Context {
         return properties;
     }
 
-    private List<EntityFactory<? extends Entity>> initEntitiesSuppliers(Properties properties){
-        List<EntityFactory<? extends Entity>> suppliers = new ArrayList<>();
-        suppliers.add(new GrassFactory(properties,3));
-        suppliers.add(new HerbivoreFactory(properties,1));
-        suppliers.add(new PredatorFactory(properties,1));
-        suppliers.add(new RockFactory(properties,6));
-        suppliers.add(new TreeFactory(properties,2));
-        return suppliers;
-    }
 }

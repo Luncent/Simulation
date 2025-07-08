@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.example.entities.Entity;
 
 import java.util.Properties;
-import java.util.function.Supplier;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class EntityFactory<T extends Entity>{

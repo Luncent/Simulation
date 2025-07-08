@@ -1,12 +1,7 @@
 package org.example.coordinate_factory;
 
-import com.sun.istack.internal.NotNull;
-import org.example.Context;
 import org.example.Coordinate;
 import org.example.entities.Entity;
-import org.example.entities.creatures.Creature;
-import org.example.entities.static_entities.Grass;
-import org.example.utils.EntityUtil;
 
 import java.util.Map;
 import java.util.Queue;
@@ -18,9 +13,7 @@ public class PredefinedStaticObjectAndRandomCreatureCoordinateFactory extends Co
     private final Map<Class, Queue<Coordinate>> staticObjectsCoordinates;
 
     public PredefinedStaticObjectAndRandomCreatureCoordinateFactory(
-            CoordinateFactory randomFactory, Context appContext,
-            Map<Class, Queue<Coordinate>> staticObjectsCoordinates) {
-        super(appContext);
+            CoordinateFactory randomFactory, Map<Class, Queue<Coordinate>> staticObjectsCoordinates) {
         this.randomFactory = randomFactory;
         this.staticObjectsCoordinates = staticObjectsCoordinates;
     }

@@ -1,7 +1,6 @@
 package org.example.actions.init_actions;
 
 
-import org.example.Context;
 import org.example.GameMap;
 import org.example.actions.Action;
 import org.example.entities.Entity;
@@ -15,16 +14,17 @@ public class EntitiesCreationAction extends Action {
     private final List<EntityFactory<? extends Entity>> factories;
     private final GameMap map;
 
-    public EntitiesCreationAction(Context appContext) {
-        super(DESCRIBING_MESSAGE, appContext);
-        this.factories = appContext.getSuppliers();
-        this.map = appContext.getMap();
+    public EntitiesCreationAction(List<EntityFactory<? extends Entity>> factories,
+                                  GameMap map) {
+        super(DESCRIBING_MESSAGE);
+        this.factories = factories;
+        this.map = map;
     }
 
     @Override
     public void execute() {
         List<Entity> entitiesBuffer = map.getNotPlacedEntitiesBuffer();
-        factories.stream().forEach(factory ->
+        factories.forEach(factory ->
                 IntStream.range(0, factory.getNumberToSupply())
                         .forEach(i -> entitiesBuffer.add(factory.get())
                 ));

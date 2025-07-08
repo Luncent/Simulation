@@ -1,28 +1,25 @@
 package org.example.actions.init_actions;
 
-import org.example.Context;
 import org.example.GameMap;
 import org.example.actions.Action;
 import org.example.coordinate_factory.CoordinateFactory;
 import org.example.entities.Entity;
 import org.example.utils.EntityUtil;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.example.utils.EntityUtil.isStaticObject;
 
 public class EntitiesPlacementAction extends Action {
-
+    private static final String DESCRIBING_MESSAGE = "Place/replace entities randomly";
     private final CoordinateFactory coordinateFactory;
     private final GameMap map;
 
-    public EntitiesPlacementAction(String describingMessage, Context appContext,
-                                   CoordinateFactory coordinateFactory) {
-        super(describingMessage, appContext);
+    public EntitiesPlacementAction(CoordinateFactory coordinateFactory,
+                                   GameMap map) {
+        super(DESCRIBING_MESSAGE);
         this.coordinateFactory = coordinateFactory;
-        this.map = appContext.getMap();
+        this.map = map;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.example.entities.creatures;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.example.entities.Entity;
 import org.example.entities.InteractiveEntity;
 

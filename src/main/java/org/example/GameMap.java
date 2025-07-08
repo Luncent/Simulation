@@ -1,7 +1,6 @@
 package org.example;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.example.entities.Entity;
 import org.example.entities.creatures.Creature;
 import org.example.exceptions.MapCreationException;
@@ -10,7 +9,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@NoArgsConstructor
 @Getter
 public class GameMap {
     private static final int MAP_PART_FOR_ENTITIES = 4;
@@ -31,16 +29,16 @@ public class GameMap {
 
     private List<Entity> notPlacedEntitiesBuffer;
 
-    public void init(Context context) throws MapCreationException {
-        int rowsCount = Integer.parseInt(context.getProperties().getProperty("map_rows"));
-        int columnsCount = Integer.parseInt(context.getProperties().getProperty("map_columns"));
+    public GameMap(Properties properties, Random random, Queue<Creature> creaturesCycleBuffer) throws MapCreationException {
+        int rowsCount = Integer.parseInt(properties.getProperty("map_rows"));
+        int columnsCount = Integer.parseInt(properties.getProperty("map_columns"));
         validateMapCreation(columnsCount, rowsCount);
         this.columnsCount = columnsCount;
         this.rowsCount = rowsCount;
         this.entitiesLimit = rowsCount * columnsCount / MAP_PART_FOR_ENTITIES;
         this.emojiNumbers = fillEmojiNumbers();
-        this.random = context.getRandom();
-        this.creaturesCycleBuffer = context.getCreaturesCycleBuffer();
+        this.random = random;
+        this.creaturesCycleBuffer = creaturesCycleBuffer;
         entityMap = new HashMap<>(rowsCount * columnsCount);
         notPlacedEntitiesBuffer = new ArrayList<>();
         clearMap();
@@ -82,7 +80,7 @@ public class GameMap {
 
     public void removeFromMap(Entity entity) {
         entityMap.put(entity.getCoordinate(), null);
-        boolean result = creaturesCycleBuffer.remove(entity);
+        creaturesCycleBuffer.remove(entity);
     }
 
     public List<Creature> selectCreaturesFromMap(){
