@@ -20,7 +20,6 @@ import java.util.*;
 public class Application {
 
     public static void main(String[] args) throws InterruptedException, IOException, MapCreationException {
-        //some setting here
         Context appContext = new Context();
         appContext.getMap().init(appContext);
 
@@ -28,6 +27,10 @@ public class Application {
         Queue<Coordinate> coordinatesR = new LinkedList<>();
         coordinatesR.add(new Coordinate(0,0));
         coordinatesR.add(new Coordinate(0,1));
+        coordinatesR.add(new Coordinate(2,1));
+        coordinatesR.add(new Coordinate(2,2));
+        coordinatesR.add(new Coordinate(2,4));
+        coordinatesR.add(new Coordinate(2,5));
         predefinedCoordinates.put(Rock.class,coordinatesR);
 
         Queue<Coordinate> coordinatesT = new LinkedList<>();

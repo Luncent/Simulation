@@ -1,10 +1,7 @@
 package org.example.entities.creatures;
 
 import lombok.Getter;
-import org.example.Coordinate;
-import org.example.utils.EntitiesMovementUtil;
-
-import java.util.Random;
+import org.example.utils.move_search.EntitiesMovementUtil;
 
 @Getter
 public class Predator extends Creature{

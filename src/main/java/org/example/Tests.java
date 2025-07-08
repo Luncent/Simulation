@@ -1,29 +1,20 @@
 package org.example;
 
-import org.example.entities.Entity;
-import org.example.entities.InteractiveEntity;
-import org.example.entities.creatures.Creature;
-import org.example.entities.creatures.Herbivore;
-import org.example.entities.creatures.Predator;
-import org.example.entities.static_entities.Grass;
-import org.example.entities.static_entities.Rock;
-import org.example.entity_factories.*;
 import org.example.exceptions.MapCreationException;
-import org.example.utils.EntitiesMovementUtil;
+import org.example.utils.move_search.CoordinateSearchWrapper;
 
 import java.io.IOException;
 
 public class Tests {
 
     public static void main(String[] args) throws IOException, MapCreationException {
-        Creature creature = new Herbivore("d",20,20, Grass.class);
-        Creature creature2 = new Predator("d",20,20,20, Grass.class);
-        Entity entity = new Grass("sd",20);
-        Entity entity2 = new Rock("wed");
-        System.out.println(creature instanceof InteractiveEntity);
-        System.out.println(creature2 instanceof InteractiveEntity);
-        System.out.println(entity instanceof InteractiveEntity);
-        System.out.println(entity2 instanceof InteractiveEntity);
+        Coordinate coord1 = new Coordinate(1, 2);
+        Coordinate coord2 = new Coordinate(1, 2);
+
+        CoordinateSearchWrapper wrapper1 = new CoordinateSearchWrapper(coord1, null);
+        CoordinateSearchWrapper wrapper2 = new CoordinateSearchWrapper(coord2, null);
+
+        System.out.println(coord1.equals(wrapper1));
     }
 
 }

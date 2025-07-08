@@ -1,7 +1,7 @@
 package org.example.entities.creatures;
 
 import org.example.entities.InteractiveEntity;
-import org.example.utils.EntitiesMovementUtil;
+import org.example.utils.move_search.EntitiesMovementUtil;
 
 public class Herbivore extends Creature implements InteractiveEntity<Predator, Herbivore> {
 
