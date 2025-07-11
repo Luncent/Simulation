@@ -14,5 +14,5 @@ predator_speed=2
 predator_health=100
 predator_damage=25
 
-map_rows=5
-map_columns=8
+map_rows=9
+map_columns=14

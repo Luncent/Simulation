@@ -19,15 +19,15 @@ public class GameMap {
     private final static String MAP_CREATED_MSG = "Map created successfully. Max entities number=%s\n";
     private final static String ENTITY_ADDED_MSG = "entity added successfully";
     //for first row to be well formatted
-    private Map<Integer, String> emojiNumbers;
-    private Random random;
-    private int rowsCount;
-    private int columnsCount;
-    private int entitiesLimit;
-    private Map<Coordinate, Entity> entityMap;
-    private Queue<Creature> creaturesCycleBuffer;
+    private final Map<Integer, String> emojiNumbers;
+    private final Random random;
+    private final int rowsCount;
+    private final int columnsCount;
+    private final int entitiesLimit;
+    private final Map<Coordinate, Entity> entityMap;
+    private final Queue<Creature> creaturesCycleBuffer;
 
-    private List<Entity> notPlacedEntitiesBuffer;
+    private final List<Entity> notPlacedEntitiesBuffer;
 
     public GameMap(Properties properties, Random random, Queue<Creature> creaturesCycleBuffer) throws MapCreationException {
         int rowsCount = Integer.parseInt(properties.getProperty("map_rows"));

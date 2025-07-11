@@ -72,6 +72,61 @@ public class Context {
                 this::getStepsMade, scanner, map, creaturesCycleBuffer);
     }
 
+    //number of static entities should match "numberToSupply" field of its factory
+    private void createPredefinedCoordinates(){
+        predefinedCoordinates = new HashMap<>();
+        Queue<Coordinate> rocksCoordinates = new LinkedList<>();
+        rocksCoordinates.add(new Coordinate(1,11));
+        rocksCoordinates.add(new Coordinate(5,2));
+        rocksCoordinates.add(new Coordinate(6,4));
+        rocksCoordinates.add(new Coordinate(8,2));
+        rocksCoordinates.add(new Coordinate(6,6));
+        rocksCoordinates.add(new Coordinate(6,7));
+        rocksCoordinates.add(new Coordinate(7,6));
+        rocksCoordinates.add(new Coordinate(7,7));
+
+        rocksCoordinates.add(new Coordinate(7,12));
+        rocksCoordinates.add(new Coordinate(8,12));
+        rocksCoordinates.add(new Coordinate(8,13));
+        predefinedCoordinates.put(Rock.class,rocksCoordinates);
+
+        Queue<Coordinate> treesCoordinates = new LinkedList<>();
+        treesCoordinates.add(new Coordinate(2,1));
+        treesCoordinates.add(new Coordinate(2,2));
+        treesCoordinates.add(new Coordinate(3,2));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(1,0));
+
+        predefinedCoordinates.put(Tree.class, treesCoordinates);
+    }
+
+    private void createEntityFactories(Properties properties){
+        grassFactory = new GrassFactory(properties,3);
+        rockFactory = new RockFactory(properties,11);
+        herbivoreFactory = new HerbivoreFactory(properties,1);
+        predatorFactory = new PredatorFactory(properties,1);
+        treeFactory = new TreeFactory(properties,2);
+
+        entityFactories = new ArrayList<>();
+        entityFactories.add(grassFactory);
+        entityFactories.add(rockFactory);
+        entityFactories.add(herbivoreFactory);
+        entityFactories.add(predatorFactory);
+        entityFactories.add(treeFactory);
+    }
+
     private void createInitActions(){
         entitiesCreationAction = new EntitiesCreationAction(entityFactories, map);
         entitiesPlacementAction = new EntitiesPlacementAction(predefinedCoordinateFactory, map);
@@ -96,38 +151,6 @@ public class Context {
 
         predefinedCoordinateFactory = new PredefinedStaticObjectAndRandomCreatureCoordinateFactory(
                 randomCoordinateFactory,predefinedCoordinates);
-    }
-
-    private void createPredefinedCoordinates(){
-        predefinedCoordinates = new HashMap<>();
-        Queue<Coordinate> coordinatesR = new LinkedList<>();
-        coordinatesR.add(new Coordinate(0,0));
-        coordinatesR.add(new Coordinate(0,1));
-        coordinatesR.add(new Coordinate(2,1));
-        coordinatesR.add(new Coordinate(2,2));
-        coordinatesR.add(new Coordinate(2,4));
-        coordinatesR.add(new Coordinate(2,5));
-        predefinedCoordinates.put(Rock.class,coordinatesR);
-
-        Queue<Coordinate> coordinatesT = new LinkedList<>();
-        coordinatesT.add(new Coordinate(1,0));
-        coordinatesT.add(new Coordinate(1,1));
-        predefinedCoordinates.put(Tree.class, coordinatesT);
-    }
-
-    private void createEntityFactories(Properties properties){
-        grassFactory = new GrassFactory(properties,3);
-        rockFactory = new RockFactory(properties,6);
-        herbivoreFactory = new HerbivoreFactory(properties,1);
-        predatorFactory = new PredatorFactory(properties,1);
-        treeFactory = new TreeFactory(properties,2);
-
-        entityFactories = new ArrayList<>();
-        entityFactories.add(grassFactory);
-        entityFactories.add(rockFactory);
-        entityFactories.add(herbivoreFactory);
-        entityFactories.add(predatorFactory);
-        entityFactories.add(treeFactory);
     }
 
     public void increaseSteps(int valueToAdd){
