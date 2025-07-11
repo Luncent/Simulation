@@ -29,13 +29,13 @@ public class EntitiesPlacementAction extends Action {
         //put на карту
         map.clearMap();
         List<Entity> entitiesBuffer = map.getNotPlacedEntitiesBuffer();
-        placeStaticThenMoving(entitiesBuffer);
+        placeStaticThenMovingEntities(entitiesBuffer);
         //clear buffer
         entitiesBuffer.clear();
         map.renderMap();
     }
 
-    private void placeStaticThenMoving(List<Entity> entitiesBuffer){
+    private void placeStaticThenMovingEntities(List<Entity> entitiesBuffer){
         entitiesBuffer.stream().filter(EntityUtil::isStaticObject)
                 .forEach(entity ->{
             System.out.println("placing "+entity.getEntityView());

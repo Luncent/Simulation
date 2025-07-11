@@ -15,4 +15,4 @@ predator_health=100
 predator_damage=25
 
 map_rows=9
-map_columns=14
+map_columns=10

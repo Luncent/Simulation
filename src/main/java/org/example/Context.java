@@ -76,7 +76,6 @@ public class Context {
     private void createPredefinedCoordinates(){
         predefinedCoordinates = new HashMap<>();
         Queue<Coordinate> rocksCoordinates = new LinkedList<>();
-        rocksCoordinates.add(new Coordinate(1,11));
         rocksCoordinates.add(new Coordinate(5,2));
         rocksCoordinates.add(new Coordinate(6,4));
         rocksCoordinates.add(new Coordinate(8,2));
@@ -85,28 +84,25 @@ public class Context {
         rocksCoordinates.add(new Coordinate(7,6));
         rocksCoordinates.add(new Coordinate(7,7));
 
-        rocksCoordinates.add(new Coordinate(7,12));
-        rocksCoordinates.add(new Coordinate(8,12));
-        rocksCoordinates.add(new Coordinate(8,13));
         predefinedCoordinates.put(Rock.class,rocksCoordinates);
 
         Queue<Coordinate> treesCoordinates = new LinkedList<>();
         treesCoordinates.add(new Coordinate(2,1));
         treesCoordinates.add(new Coordinate(2,2));
         treesCoordinates.add(new Coordinate(3,2));
-        treesCoordinates.add(new Coordinate(1,1));
-        treesCoordinates.add(new Coordinate(1,0));
-        treesCoordinates.add(new Coordinate(1,1));
-        treesCoordinates.add(new Coordinate(1,0));
-        treesCoordinates.add(new Coordinate(1,1));
-        treesCoordinates.add(new Coordinate(1,0));
-        treesCoordinates.add(new Coordinate(1,1));
-        treesCoordinates.add(new Coordinate(1,0));
-        treesCoordinates.add(new Coordinate(1,1));
-        treesCoordinates.add(new Coordinate(1,0));
-        treesCoordinates.add(new Coordinate(1,1));
-        treesCoordinates.add(new Coordinate(1,0));
-        treesCoordinates.add(new Coordinate(1,1));
+        treesCoordinates.add(new Coordinate(4,2));
+
+        treesCoordinates.add(new Coordinate(3,4));
+        treesCoordinates.add(new Coordinate(0,6));
+        treesCoordinates.add(new Coordinate(1,6));
+        treesCoordinates.add(new Coordinate(2,6));
+
+        treesCoordinates.add(new Coordinate(2,8));
+        treesCoordinates.add(new Coordinate(2,9));
+
+        treesCoordinates.add(new Coordinate(5,9));
+        treesCoordinates.add(new Coordinate(5,6));
+        treesCoordinates.add(new Coordinate(8,1));
         treesCoordinates.add(new Coordinate(1,0));
 
         predefinedCoordinates.put(Tree.class, treesCoordinates);
@@ -114,10 +110,10 @@ public class Context {
 
     private void createEntityFactories(Properties properties){
         grassFactory = new GrassFactory(properties,3);
-        rockFactory = new RockFactory(properties,11);
+        rockFactory = new RockFactory(properties,7);
         herbivoreFactory = new HerbivoreFactory(properties,1);
         predatorFactory = new PredatorFactory(properties,1);
-        treeFactory = new TreeFactory(properties,2);
+        treeFactory = new TreeFactory(properties,13);
 
         entityFactories = new ArrayList<>();
         entityFactories.add(grassFactory);

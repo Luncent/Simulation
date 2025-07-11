@@ -41,7 +41,6 @@ public class GameMap {
         this.creaturesCycleBuffer = creaturesCycleBuffer;
         entityMap = new HashMap<>(rowsCount * columnsCount);
         notPlacedEntitiesBuffer = new ArrayList<>();
-        clearMap();
         //System.out.printf(MAP_CREATED_MSG, entitiesLimit);
     }
 
@@ -51,15 +50,17 @@ public class GameMap {
     }
 
     public void clearMap() {
-        IntStream.range(0, rowsCount).forEach(row ->
-                IntStream.range(0, columnsCount).forEach(column ->
-                        entityMap.put(new Coordinate(row, column), null)
-                )
-        );
+        entityMap.clear();
     }
 
     public boolean coordinateIsEmptyAndExists(Coordinate coordinate) {
-        return entityMap.get(coordinate) == null && entityMap.containsKey(coordinate);
+        return entityMap.get(coordinate) == null && coordinateExistsOnMap(coordinate);
+    }
+
+    private boolean coordinateExistsOnMap(Coordinate coordinate) {
+        boolean rowExists =  coordinate.getRow()>=0 && coordinate.getRow()<rowsCount;
+        boolean columnExists =  coordinate.getColumn()>=0 && coordinate.getColumn()<columnsCount;
+        return rowExists && columnExists;
     }
 
     public Optional<Entity> getEntityByCoordinate(Coordinate coordinate) {
