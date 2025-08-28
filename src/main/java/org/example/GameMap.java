@@ -80,7 +80,7 @@ public class GameMap {
     }
 
     public void removeFromMap(Entity entity) {
-        entityMap.put(entity.getCoordinate(), null);
+        entityMap.remove(entity.getCoordinate());
         creaturesCycleBuffer.remove(entity);
     }
 
